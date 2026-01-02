@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Viral Bit | Elite Digital Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #06b6d4;
+            --bg: #030509;
+            --card: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+            --glow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; min-height: 100vh; }
+
+        /* --- LOGO ANIMATIONS --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.6); }
+        }
+
+        .home-logo-container { text-align: center; margin: 20px 0; }
+        .hero-logo { 
+            width: 120px; height: 120px; border-radius: 35px; 
+            border: 2px solid var(--primary); 
+            animation: float 4s ease-in-out infinite, pulse-glow 3s infinite;
+            object-fit: cover;
+        }
+
+        /* --- INTRO POPUP --- */
+        #intro-overlay { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 25px; text-align: center; }
+        .intro-content { max-width: 420px; animation: scaleIn 0.6s ease-out; }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .intro-logo { width: 110px; height: 110px; border-radius: 30px; border: 2px solid var(--primary); margin-bottom: 25px; box-shadow: var(--glow); object-fit: cover; }
+        .intro-mission { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 20px; margin: 20px 0; font-size: 0.9rem; line-height: 1.6; color: #cbd5e1; }
+        
+        /* --- NAVIGATION --- */
+        nav { position: sticky; top: 0; z-index: 1000; background: rgba(3, 5, 9, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { height: 40px; width: 40px; border-radius: 10px; cursor: pointer; border: 1px solid var(--primary); transition: 0.3s; }
+        .nav-logo:hover { transform: scale(1.1); box-shadow: var(--glow); }
+
+        /* --- LAYOUT & PAGES --- */
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; padding-bottom: 120px; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.4s forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-label { font-size: 0.75rem; letter-spacing: 2.5px; font-weight: 900; color: var(--primary); margin: 35px 0 15px; text-transform: uppercase; border-left: 3px solid var(--accent); padding-left: 10px; }
+        
+        /* --- GRID & CARDS --- */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .glass-card { background: var(--card); border: 1px solid var(--border); border-radius: 28px; padding: 25px 15px; text-align: center; cursor: pointer; }
+        .glass-card i { font-size: 2.4rem; margin-bottom: 12px; display: block; }
+        .brand-icon { width: 48px; height: 48px; border-radius: 12px; margin-bottom: 10px; object-fit: cover; }
+
+        /* --- REVIEW SLIDER --- */
+        .review-wrap { width: 100%; overflow: hidden; padding: 15px 0; mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
+        .review-track { display: flex; gap: 15px; width: max-content; animation: scroll 40s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .rev-card { width: 260px; background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 18px; flex-shrink: 0; }
+        
+        /* --- FAQS --- */
+        .faq-item { background: var(--card); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 10px; overflow: hidden; }
+        .faq-q { padding: 18px; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { padding: 0 18px; max-height: 0; overflow: hidden; transition: 0.3s ease-out; font-size: 0.85rem; opacity: 0.7; line-height: 1.5; }
+        .faq-item.active .faq-a { padding-bottom: 18px; max-height: 200px; }
+        .faq-item.active i { transform: rotate(180deg); color: var(--accent); }
+
+        /* --- LISTS --- */
+        .list-item { background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 18px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+        .back-btn { display: inline-flex; align-items: center; gap: 10px; opacity: 0.6; font-weight: 800; margin-bottom: 25px; cursor: pointer; color: var(--accent); }
+
+        /* --- DRAWER & PAYMENT --- */
+        .drawer { position: fixed; bottom: -100%; left: 0; width: 100%; height: 85%; background: #080a12; z-index: 2000; border-radius: 35px 35px 0 0; border-top: 1px solid var(--border); padding: 30px 20px; transition: 0.5s cubic-bezier(0.32, 1, 0.23, 1); }
+        .drawer.active { bottom: 0; box-shadow: 0 -15px 50px rgba(0,0,0,0.9); }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1999; display: none; }
+        
+        .pay-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .pay-btn { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 18px; color: var(--text); font-weight: 800; font-size: 0.8rem; cursor: pointer; text-align: center; }
+        .pay-btn.selected { border-color: var(--accent); background: rgba(6, 182, 212, 0.1); color: var(--accent); }
+
+        .btn-buy { width: 100%; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; border: none; padding: 20px; border-radius: 22px; font-weight: 900; cursor: pointer; box-shadow: var(--glow); }
+        .close-drawer { position: absolute; top: 25px; right: 25px; width: 35px; height: 35px; background: var(--card); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text); cursor: pointer; }
+        .price-tag { background: var(--primary); padding: 6px 14px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div id="intro-overlay">
+    <div class="intro-content">
+        <img src="https://res.cloudinary.com/dgy2dutjs/image/upload/v1766154217/url.crissvevo.co.tz/1000880499_tnidk3.jpg" class="intro-logo">
+        <h1 style="font-size: 2.4rem; font-weight: 900; line-height: 1;">Viral <span style="color:var(--accent)">Bit</span></h1>
+        <div class="intro-mission">
+            <b>Our Purpose:</b> Viral Bit is Zimbabwe's premier digital growth hub. We specialize in sky-rocketing your social media influence and providing instant premium streaming access.
+        </div>
+        <button class="btn-buy" onclick="closeIntro()">GET STARTED</button>
+    </div>
+</div>
+
+<nav id="main-nav" style="display: none;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="https://res.cloudinary.com/dgy2dutjs/image/upload/v1766154217/url.crissvevo.co.tz/1000880499_tnidk3.jpg" class="nav-logo" onclick="showPage('home-page')">
+        <span style="font-weight: 900; font-size: 1.1rem; letter-spacing: 1px;">VIRAL <span style="color:var(--accent)">BIT</span></span>
+    </div>
+    <button onclick="toggleCart()" style="background:var(--card); border:1px solid var(--border); color:white; width:46px; height:46px; border-radius:15px; position:relative;">
+        <i class="fas fa-shopping-bag"></i>
+        <span id="cart-dot" style="display:none; position:absolute; top:8px; right:8px; width:10px; height:10px; background:#ff4757; border-radius:50%;"></span>
+    </button>
+</nav>
+
+<div class="container" id="app-body" style="display: none;">
+    
+    <div id="home-page" class="page active">
+        
+        <div class="home-logo-container">
+            <img src="https://res.cloudinary.com/dgy2dutjs/image/upload/v1766154217/url.crissvevo.co.tz/1000880499_tnidk3.jpg" class="hero-logo">
+        </div>
+
+        <p class="section-label">Social Boosting</p>
+        <div class="grid">
+            <div class="glass-card" onclick="openCategory('tiktok')"><i class="fab fa-tiktok" style="color:#ff0050"></i><h4>TikTok</h4></div>
+            <div class="glass-card" onclick="openCategory('instagram')"><i class="fab fa-instagram" style="color:#E1306C"></i><h4>Instagram</h4></div>
+            <div class="glass-card" onclick="openCategory('whatsapp')"><i class="fab fa-whatsapp" style="color:#25d366"></i><h4>WhatsApp</h4></div>
+            <div class="glass-card" onclick="showPage('fb-page')"><i class="fab fa-facebook-f" style="color:#1877f2"></i><h4>Facebook</h4></div>
+        </div>
+
+        <p class="section-label">Premium Entertainment</p>
+        <div class="grid">
+            <div class="glass-card" onclick="openCategory('netflix')">
+                <img src="https://res.cloudinary.com/dgy2dutjs/image/upload/v1766156222/url.crissvevo.co.tz/1000880598_dpwdzo.jpg" class="brand-icon">
+                <h4>Netflix</h4>
+            </div>
+            <div class="glass-card" onclick="openCategory('prime')">
+                <img src="https://res.cloudinary.com/dgy2dutjs/image/upload/v1766156464/url.crissvevo.co.tz/1000880607_elrsbt.jpg" class="brand-icon">
+                <h4>Prime Video</h4>
+            </div>
+        </div>
+
+        <p class="section-label">Client Feedback</p>
+        <div class="review-wrap">
+            <div class="review-track" id="review-list"></div>
+        </div>
+
+        <p class="section-label">FAQs</p>
+        <div id="faq-list">
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">How fast is delivery? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-a">Most social services start within 10-30 minutes. Streaming accounts are sent via WhatsApp instantly once payment is confirmed.</div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">Is my account safe? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-a">Yes! We never ask for passwords. Our methods are 100% safe and comply with platform security standards.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cat-page" class="page">
+        <div class="back-btn" onclick="showPage('home-page')"><i class="fas fa-chevron-left"></i> BACK TO HUB</div>
+        <h2 id="cat-title" style="font-size: 2rem; margin-bottom: 20px;">Platform</h2>
+        <div id="cat-list"></div>
+    </div>
+
+    <div id="svc-page" class="page">
+        <div class="back-btn" id="svc-back-btn"><i class="fas fa-chevron-left"></i> GO BACK</div>
+        <h2 id="svc-title" style="font-size: 1.8rem; margin-bottom: 20px;">Services</h2>
+        <div id="svc-list"></div>
+    </div>
+
+    <div id="fb-page" class="page">
+        <div class="back-btn" onclick="showPage('home-page')"><i class="fas fa-chevron-left"></i> BACK</div>
+        <div style="text-align:center; padding: 60px 20px;">
+            <i class="fas fa-microchip" style="font-size: 3.5rem; color: var(--primary); margin-bottom: 25px;"></i>
+            <h2>Facebook V2</h2>
+            <p style="opacity: 0.5; margin-top: 15px; font-family: monospace;">STATUS: UPDATING_ALGORITHMS...</p>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="drawer" id="cart-drawer">
+    <div class="close-drawer" onclick="toggleCart()"><i class="fas fa-times"></i></div>
+    <h2 style="margin-bottom: 20px;">Your Bag</h2>
+    <div id="cart-content" style="height: 250px; overflow-y: auto; margin-bottom: 20px;"></div>
+    
+    <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+        <p style="font-size: 0.7rem; font-weight: 900; color: var(--accent); margin-bottom: 10px; text-transform: uppercase;">Select Payment Method</p>
+        <div class="pay-grid">
+            <div class="pay-btn" id="btn-eco" onclick="setPayment('EcoCash')">ECOCASH</div>
+            <div class="pay-btn" id="btn-inn" onclick="setPayment('InnBucks')">INNBUCKS</div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+            <span style="font-weight:700; opacity:0.6;">Total Amount</span>
+            <h2 id="cart-total" style="color: var(--accent);">$0.00</h2>
+        </div>
+        <button class="btn-buy" onclick="checkout()">ORDER ON WHATSAPP</button>
+    </div>
+</div>
+
+<script>
+    const WA_NUMBER = "263779846726";
+    let currentCart = [];
+    let lastCatId = '';
+    let selectedPayment = '';
+
+    const DATA = {
+        tiktok: { name: "TikTok Growth", items: [
+            {n:"Likes", id:"tk_l", i:"fas fa-heart"}, {n:"Views", id:"tk_v", i:"fas fa-play"}, 
+            {n:"Comments", id:"tk_c", i:"fas fa-comment"}, {n:"Favorites", id:"tk_f", i:"fas fa-bookmark"}
+        ]},
+        instagram: { name: "Instagram Elite", items: [{n:"Likes", id:"ig_l", i:"fas fa-heart"}] },
+        whatsapp: { name: "WhatsApp Elite", items: [
+            {n:"Channel Followers", id:"wa_c", i:"fas fa-bullhorn"}, {n:"Group Members", id:"wa_m", i:"fas fa-users"}
+        ]},
+        netflix: { name: "Netflix Premium", items: [{n:"UHD Private Account", id:"nx_m", i:"fas fa-tv"}] },
+        prime: { name: "Prime Video", items: [{n:"Lifetime Access", id:"pv_l", i:"fas fa-infinity"}] }
+    };
+
+    const PACKAGES = {
+        tk_l: [{n:"500 Starter Likes", p:1.00}, {n:"1000 Popular Likes", p:1.80}, {n:"5000 Viral Likes", p:8.50}],
+        tk_v: [{n:"1000 Instant Views", p:1.00}, {n:"10k Mega Views", p:6.50}],
+        tk_c: [{n:"10 Custom Comments", p:1.50}, {n:"50 Viral Comments", p:5.00}],
+        tk_f: [{n:"500 Favorites", p:2.00}, {n:"1000 Favorites", p:3.50}],
+        ig_l: [{n:"500 HQ Likes", p:1.00}, {n:"1000 Premium Likes", p:1.80}],
+        wa_c: [{n:"300 Real Followers", p:1.00}, {n:"1000 Elite Followers", p:3.20}],
+        wa_m: [{n:"100 Members", p:1.50}, {n:"500 Members", p:6.00}],
+        nx_m: [{n:"1 Month Private UHD", p:5.00}],
+        pv_l: [{n:"Lifetime Official Access", p:12.00}]
+    };
+
+    const reviews = [
+        {u:"Tinashe", m:"Netflix UHD works perfectly, instant delivery!"},
+        {u:"Sarah", m:"Gained 1k TikTok followers in minutes. Wow."},
+        {u:"Kudzai", m:"Best streaming service in Zimbabwe, trusted."},
+        {u:"Amon", m:"My business TikTok views exploded. Thanks Viral Bit!"}
+    ];
+
+    function toggleFaq(el) { el.classList.toggle('active'); }
+
+    function closeIntro() {
+        document.getElementById('intro-overlay').style.display = 'none';
+        document.getElementById('main-nav').style.display = 'flex';
+        document.getElementById('app-body').style.display = 'block';
+        renderReviews();
+    }
+
+    function renderReviews() {
+        const track = document.getElementById('review-list');
+        const html = reviews.map(r => `
+            <div class="rev-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <b style="font-size:0.9rem;">${r.u}</b>
+                    <i class="fas fa-check-circle" style="color:var(--accent); font-size:0.8rem;"></i>
+                </div>
+                <p style="font-size:0.8rem; opacity:0.7; line-height:1.5;">"${r.m}"</p>
+            </div>
+        `).join('');
+        track.innerHTML = html + html;
+    }
+
+    function showPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    function openCategory(id) {
+        lastCatId = id;
+        const cat = DATA[id];
+        document.getElementById('cat-title').innerText = cat.name;
+        document.getElementById('cat-list').innerHTML = cat.items.map(i => `
+            <div class="list-item" onclick="openServices('${i.id}', '${i.n}', '${i.i}')">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <i class="${i.i}" style="color:var(--primary); font-size:1.2rem;"></i>
+                    <b>${i.n}</b>
+                </div>
+                <i class="fas fa-chevron-right" style="opacity:0.3"></i>
+            </div>
+        `).join('');
+        showPage('cat-page');
+    }
+
+    function openServices(id, name, iconClass) {
+        const pkgs = PACKAGES[id];
+        document.getElementById('svc-title').innerText = name;
+        document.getElementById('svc-back-btn').onclick = () => openCategory(lastCatId);
+        document.getElementById('svc-list').innerHTML = pkgs.map(p => `
+            <div class="list-item" style="cursor:default">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <i class="${iconClass}" style="color:var(--accent); opacity:0.5;"></i>
+                    <div><b>${p.n}</b><br><small style="color:var(--primary)">⚡ Instant Start</small></div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <span class="price-tag">$${p.p.toFixed(2)}</span>
+                    <i class="fas fa-plus-circle" style="font-size:1.8rem; color:var(--accent); cursor:pointer" onclick="addToCart('${p.n}', ${p.p})"></i>
+                </div>
+            </div>
+        `).join('');
+        showPage('svc-page');
+    }
+
+    function setPayment(method) {
+        selectedPayment = method;
+        document.getElementById('btn-eco').classList.remove('selected');
+        document.getElementById('btn-inn').classList.remove('selected');
+        if(method === 'EcoCash') document.getElementById('btn-eco').classList.add('selected');
+        else document.getElementById('btn-inn').classList.add('selected');
+    }
+
+    function addToCart(n, p) {
+        currentCart.push({n, p});
+        updateCart();
+        toggleCart();
+    }
+
+    function updateCart() {
+        document.getElementById('cart-dot').style.display = currentCart.length ? 'block' : 'none';
+        let total = 0;
+        document.getElementById('cart-content').innerHTML = currentCart.map((item, i) => {
+            total += item.p;
+            return `<div class="list-item">
+                <div><b>${item.n}</b><br><small>$${item.p.toFixed(2)}</small></div>
+                <i class="fas fa-trash" style="color:#ff4757; padding:10px;" onclick="removeItem(${i})"></i>
+            </div>`;
+        }).join('');
+        document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+    }
+
+    function removeItem(i) { currentCart.splice(i,1); updateCart(); }
+    function toggleCart() { 
+        document.getElementById('cart-drawer').classList.toggle('active');
+        document.getElementById('overlay').style.display = document.getElementById('cart-drawer').classList.contains('active') ? 'block' : 'none';
+    }
+
+    function checkout() {
+        if(!currentCart.length) return alert("Your bag is empty!");
+        if(!selectedPayment) return alert("Select a payment method!");
+        let msg = `🚀 *NEW VIRAL BIT ORDER*\n\n`;
+        currentCart.forEach(i => msg += `• ${i.n} ($${i.p.toFixed(2)})\n`);
+        msg += `\n💰 *Total:* ${document.getElementById('cart-total').innerText}`;
+        msg += `\n💳 *Payment:* ${selectedPayment}`;
+        window.location.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+    }
+</script>
+</body>
+</html>
