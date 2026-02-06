@@ -6,10 +6,26 @@
   <meta name="theme-color" content="#0b1020" />
   <meta name="color-scheme" content="dark light" />
 
-  <title>ViralBit Tech</title>
+  <title>ViralBit Tech - Professional Automation & Web Development</title>
   <meta name="description" content="Official Website for ViralBit Tech. Founded By Wesley Drey , Located in Zimbabwe:Beitbridge — WhatsApp automation specialist, full-stack developer, and tech consultant." />
   <meta name="robots" content="index,follow" />
   <meta name="author" content="Calyx Drey" />
+  
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="ViralBit Tech - Professional Automation & Web Development">
+  <meta property="og:description" content="WhatsApp automation specialist, full-stack developer, and tech consultant based in Zimbabwe.">
+  <meta property="og:image" content="https://i.postimg.cc/QMxc8dmh/vb-logo.png">
+  <meta property="og:url" content="https://viralbit.tech">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ViralBit Tech - Professional Automation & Web Development">
+  <meta name="twitter:description" content="WhatsApp automation specialist, full-stack developer, and tech consultant based in Zimbabwe.">
+  <meta name="twitter:image" content="https://i.postimg.cc/QMxc8dmh/vb-logo.png">
+  
+  <!-- Google Search Console Verification (you can add your own) -->
+  <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE"> -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -268,6 +284,12 @@
     .btn.primary:hover{background:linear-gradient(135deg,rgba(124,92,255,1),rgba(25,211,255,.95));box-shadow:0 22px 48px rgba(124,92,255,.22)}
     .btn.ghost{background:rgba(255,255,255,.04)}
     .btn.small{padding:10px 14px;border-radius:14px;font-size:.92rem}
+    .btn.success{
+      background:linear-gradient(135deg,rgba(39,240,164,.95),rgba(25,211,255,.85));
+      border-color:rgba(39,240,164,.20);
+      box-shadow:0 18px 40px rgba(39,240,164,.18);
+    }
+    .btn.success:hover{background:linear-gradient(135deg,rgba(39,240,164,1),rgba(25,211,255,.95))}
 
     .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
     .grid{display:grid;grid-template-columns:1fr;gap:18px}
@@ -597,42 +619,6 @@
     [data-theme="light"] input,[data-theme="light"] textarea{border-color:rgba(11,16,32,.10);background:rgba(11,16,32,.03)}
     textarea{min-height:150px;resize:vertical}
     .hint{font-size:.84rem;color:var(--muted2);margin-top:6px;font-weight:650}
-    
-    /* Custom Success Message */
-    .success-message{
-      display:none;
-      margin-top:20px;
-      padding:20px;
-      border-radius:18px;
-      border:1px solid rgba(39,240,164,.3);
-      background:linear-gradient(135deg, rgba(39,240,164,.1), rgba(25,211,255,.08));
-      box-shadow:0 20px 60px rgba(0,0,0,.3);
-      animation: successIn 0.6s var(--ease) forwards;
-      transform-origin: center;
-    }
-    
-    @keyframes successIn {
-      0% {
-        opacity: 0;
-        transform: translateY(10px) scale(0.95);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    
-    .success-message i.fa-check-circle {
-      font-size: 2.5rem;
-      color: var(--good);
-      animation: checkPop 0.5s var(--ease) 0.2s both;
-    }
-    
-    @keyframes checkPop {
-      0% { transform: scale(0); }
-      70% { transform: scale(1.2); }
-      100% { transform: scale(1); }
-    }
 
     /* ===== SOLID FOOTER ===== */
     footer{
@@ -744,6 +730,176 @@
     }
     .footerbar .fb-btn i{font-size:1.1rem}
     .footerbar .fb-btn .lbl{font-size:.75rem;font-weight:900}
+
+    /* ===== SUCCESS MODAL ===== */
+    .success-modal{
+      position:fixed;inset:0;z-index:2500;display:none;
+      align-items:center;justify-content:center;
+      padding:20px;
+    }
+    .success-modal.show{
+      display:flex;
+    }
+    .success-modal-backdrop{
+      position:absolute;inset:0;
+      background:rgba(0,0,0,.85);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+    .success-modal-card{
+      position:relative;
+      width:min(500px,100%);
+      border-radius:28px;
+      background:rgba(10,14,30,.95);
+      border:2px solid rgba(39,240,164,.25);
+      box-shadow:0 30px 80px rgba(0,0,0,.6);
+      overflow:hidden;
+      transform:scale(0.95);
+      opacity:0;
+      animation:successModalIn .4s var(--ease) forwards;
+    }
+    [data-theme="light"] .success-modal-card{
+      background:rgba(255,255,255,.97);
+      border-color:rgba(39,240,164,.2);
+      box-shadow:0 30px 80px rgba(8,12,22,.2);
+    }
+    @keyframes successModalIn{
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+    .success-modal-content{
+      padding:40px;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:24px;
+    }
+    .success-modal-icon{
+      width:100px;height:100px;
+      border-radius:50%;
+      background:linear-gradient(135deg, rgba(39,240,164,.15), rgba(25,211,255,.1));
+      border:2px solid rgba(39,240,164,.3);
+      display:grid;
+      place-items:center;
+      font-size:3rem;
+      color:var(--good);
+      animation:checkPop 0.8s var(--ease) 0.2s both;
+    }
+    .success-modal-title{
+      margin:0;
+      font-size:1.8rem;
+      font-weight:950;
+      letter-spacing:-.01em;
+      color:var(--text);
+    }
+    .success-modal-text{
+      margin:0;
+      color:var(--muted);
+      font-weight:700;
+      line-height:1.7;
+      max-width:40ch;
+    }
+    .success-modal-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:center;
+      margin-top:10px;
+    }
+
+    /* ===== UNDER DEVELOPMENT MODAL ===== */
+    .dev-modal{
+      position:fixed;inset:0;z-index:2500;display:none;
+      align-items:center;justify-content:center;
+      padding:20px;
+    }
+    .dev-modal.show{
+      display:flex;
+    }
+    .dev-modal-backdrop{
+      position:absolute;inset:0;
+      background:rgba(0,0,0,.85);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+    .dev-modal-card{
+      position:relative;
+      width:min(500px,100%);
+      border-radius:28px;
+      background:rgba(10,14,30,.95);
+      border:2px solid rgba(255,179,71,.25);
+      box-shadow:0 30px 80px rgba(0,0,0,.6);
+      overflow:hidden;
+      transform:scale(0.95);
+      opacity:0;
+      animation:devModalIn .4s var(--ease) forwards;
+    }
+    [data-theme="light"] .dev-modal-card{
+      background:rgba(255,255,255,.97);
+      border-color:rgba(255,179,71,.2);
+      box-shadow:0 30px 80px rgba(8,12,22,.2);
+    }
+    @keyframes devModalIn{
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+    .dev-modal-content{
+      padding:40px;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:24px;
+    }
+    .dev-modal-icon{
+      width:100px;height:100px;
+      border-radius:50%;
+      background:linear-gradient(135deg, rgba(255,179,71,.15), rgba(124,92,255,.1));
+      border:2px solid rgba(255,179,71,.3);
+      display:grid;
+      place-items:center;
+      font-size:3rem;
+      color:var(--warning);
+    }
+    .dev-modal-title{
+      margin:0;
+      font-size:1.8rem;
+      font-weight:950;
+      letter-spacing:-.01em;
+      color:var(--text);
+    }
+    .dev-modal-text{
+      margin:0;
+      color:var(--muted);
+      font-weight:700;
+      line-height:1.7;
+      max-width:40ch;
+    }
+    .dev-modal-loader{
+      width:60px;
+      height:60px;
+      border:4px solid rgba(255,255,255,.1);
+      border-top:4px solid var(--warning);
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+      margin:20px 0;
+    }
+    @keyframes spin{
+      0%{transform:rotate(0deg)}
+      100%{transform:rotate(360deg)}
+    }
+    .dev-modal-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:center;
+      margin-top:10px;
+    }
 
     /* ===== MODAL WITH SCROLLABLE CONTENT ===== */
     .modal{position:fixed;inset:0;z-index:2200;display:none}
@@ -974,6 +1130,16 @@
         width: 100%;
         justify-content: center;
       }
+      .success-modal-content,
+      .dev-modal-content {
+        padding: 24px;
+      }
+      .success-modal-icon,
+      .dev-modal-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+      }
     }
     
     @media (min-width: 820px){
@@ -1101,6 +1267,57 @@
 <body>
   <div class="progressbar" aria-hidden="true"><i></i></div>
 
+  <!-- Success Message Modal -->
+  <div class="success-modal" id="successModal" aria-hidden="true">
+    <div class="success-modal-backdrop"></div>
+    <div class="success-modal-card" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+      <div class="success-modal-content">
+        <div class="success-modal-icon">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="success-modal-title" id="successModalTitle">Message Sent Successfully!</h3>
+        <p class="success-modal-text">
+          Thanks for reaching out! I've received your message and will get back to you soon.<br>
+          <strong>Expected response time:</strong> Within 24 hours
+        </p>
+        <div class="success-modal-actions">
+          <button class="btn success" type="button" id="successCloseBtn" aria-label="Close success message">
+            <i class="fa-solid fa-check"></i> Got It
+          </button>
+          <button class="btn ghost" type="button" id="successWhatsAppBtn" aria-label="Open WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Under Development Modal -->
+  <div class="dev-modal" id="devModal" aria-hidden="true">
+    <div class="dev-modal-backdrop"></div>
+    <div class="dev-modal-card" role="dialog" aria-modal="true" aria-labelledby="devModalTitle">
+      <div class="dev-modal-content">
+        <div class="dev-modal-icon">
+          <i class="fa-solid fa-hammer"></i>
+        </div>
+        <h3 class="dev-modal-title" id="devModalTitle">Website Under Development</h3>
+        <p class="dev-modal-text">
+          This project website is currently being developed and is not yet live.<br>
+          Please check back later or contact me for project updates.
+        </p>
+        <div class="dev-modal-loader"></div>
+        <div class="dev-modal-actions">
+          <button class="btn" type="button" id="devCloseBtn" aria-label="Close development message">
+            <i class="fa-solid fa-xmark"></i> Close
+          </button>
+          <button class="btn primary" type="button" id="devContactBtn" aria-label="Contact about this project">
+            <i class="fa-solid fa-envelope"></i> Contact About Project
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Project Details Modal -->
   <div class="modal" id="projectModal" aria-hidden="true">
     <div class="modal-backdrop" id="projectBackdrop" aria-hidden="true"></div>
@@ -1149,6 +1366,9 @@
           </div>
 
           <div class="modal-actions">
+            <button class="btn small primary" type="button" id="mVisitSite" aria-label="Visit project website">
+              <i class="fa-solid fa-globe"></i> Visit Site
+            </button>
             <a class="btn primary" id="mWhatsApp" href="#" target="_blank" rel="noopener">
               <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
             </a>
@@ -1829,6 +2049,7 @@
           <div class="tags"><span class="tag">Web Development</span><span class="tag">UI/UX Design</span><span class="tag">Frontend</span><span class="tag">Responsive</span></div>
           <div class="cta-row" style="margin-top:16px;">
             <button class="btn small primary" type="button" data-details="viralchat" aria-label="View ViralChat project details"><i class="fa-solid fa-circle-info"></i> View Details</button>
+            <button class="btn small" type="button" data-visit="viralchat" aria-label="Visit ViralChat website"><i class="fa-solid fa-globe"></i> Visit Site</button>
             <button class="btn small" type="button" data-wa="website" aria-label="Request similar website project"><i class="fa-brands fa-whatsapp"></i> Request Similar</button>
           </div>
         </article>
@@ -1846,6 +2067,7 @@
           <div class="tags"><span class="tag">Tools</span><span class="tag">WhatsApp Automation</span><span class="tag">Templates</span><span class="tag">Recovery</span></div>
           <div class="cta-row" style="margin-top:16px;">
             <button class="btn small primary" type="button" data-details="viralunban" aria-label="View ViralUnban project details"><i class="fa-solid fa-circle-info"></i> View Details</button>
+            <button class="btn small" type="button" data-visit="viralunban" aria-label="Visit ViralUnban website"><i class="fa-solid fa-globe"></i> Visit Site</button>
             <button class="btn small" type="button" data-wa="tools" aria-label="Build custom automation tool"><i class="fa-brands fa-whatsapp"></i> Build Tool</button>
           </div>
         </article>
@@ -1863,6 +2085,7 @@
           <div class="tags"><span class="tag">Web Development</span><span class="tag">Hosting</span><span class="tag">Deployment</span><span class="tag">Dashboard</span></div>
           <div class="cta-row" style="margin-top:16px;">
             <button class="btn small primary" type="button" data-details="viralhost" aria-label="View ViralHost project details"><i class="fa-solid fa-circle-info"></i> View Details</button>
+            <button class="btn small" type="button" data-visit="viralhost" aria-label="Visit ViralHost website"><i class="fa-solid fa-globe"></i> Visit Site</button>
             <button class="btn small" type="button" data-wa="website" aria-label="Request hosting dashboard website"><i class="fa-brands fa-whatsapp"></i> Request Dashboard</button>
           </div>
         </article>
@@ -1880,6 +2103,7 @@
           <div class="tags"><span class="tag">API Development</span><span class="tag">Backend</span><span class="tag">Documentation</span><span class="tag">Integration</span></div>
           <div class="cta-row" style="margin-top:16px;">
             <button class="btn small primary" type="button" data-details="viralapi" aria-label="View ViralApi project details"><i class="fa-solid fa-circle-info"></i> View Details</button>
+            <button class="btn small" type="button" data-visit="viralapi" aria-label="Visit ViralApi website"><i class="fa-solid fa-globe"></i> Visit Site</button>
             <button class="btn small" type="button" data-wa="api" aria-label="Request API development project"><i class="fa-brands fa-whatsapp"></i> Request API</button>
           </div>
         </article>
@@ -1898,6 +2122,7 @@
           <div class="tags"><span class="tag">WhatsApp</span><span class="tag">Automation</span><span class="tag">Lightweight</span><span class="tag">Fast</span><span class="tag">Mini</span></div>
           <div class="cta-row" style="margin-top:16px;">
             <button class="btn small primary" type="button" data-details="viralbotmini" aria-label="View Viral-Bot Mini project details"><i class="fa-solid fa-circle-info"></i> View Details</button>
+            <button class="btn small" type="button" data-visit="viralbotmini" aria-label="Visit Viral-Bot Mini website"><i class="fa-solid fa-globe"></i> Visit Site</button>
             <button class="btn small" type="button" data-wa="bot" aria-label="Request WhatsApp bot development"><i class="fa-brands fa-whatsapp"></i> Request Bot</button>
           </div>
         </article>
@@ -1977,26 +2202,6 @@
             <button class="btn ghost" type="reset" aria-label="Reset contact form">
               <i class="fa-solid fa-rotate-left"></i> Reset
             </button>
-          </div>
-
-          <!-- Custom Success Message -->
-          <div class="success-message" id="successMessage">
-            <div style="text-align:center; padding:10px;">
-              <i class="fa-solid fa-check-circle"></i>
-              <h3 style="margin:16px 0 8px; font-weight:950; color:var(--text);">Message Sent Successfully!</h3>
-              <p style="color:var(--muted); margin-bottom:16px; font-weight:700;">
-                Thanks for reaching out! I've received your message and will get back to you soon.<br>
-                <strong>Expected response time:</strong> Within 24 hours
-              </p>
-              <div class="cta-row" style="justify-content:center; margin-top:20px;">
-                <button class="btn small ghost" type="button" onclick="setActivePage('home')" aria-label="Return to homepage">
-                  <i class="fa-solid fa-house"></i> Back to Home
-                </button>
-                <button class="btn small" type="button" id="waOpenSuccess" aria-label="Open WhatsApp for immediate contact">
-                  <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
-                </button>
-              </div>
-            </div>
           </div>
           
           <div class="card" style="margin-top:24px; box-shadow:none;">
@@ -2102,7 +2307,8 @@
           "Fast loading performance with optimized assets",
           "Modern color scheme with gradient accents"
         ],
-        bestTemplate: "Hi Calyx, I saw your ViralChat project and I'm interested in something similar. Can we discuss creating a chat interface for my project?"
+        bestTemplate: "Hi Calyx, I saw your ViralChat project and I'm interested in something similar. Can we discuss creating a chat interface for my project?",
+        websiteUrl: "#"
       },
       viralunban: {
         title: "ViralUnban Recovery System",
@@ -2117,7 +2323,8 @@
           "Export options for generated templates",
           "Mobile-responsive design"
         ],
-        bestTemplate: "Hi Calyx, I need a recovery tool like ViralUnban for my community. Can we build something similar?"
+        bestTemplate: "Hi Calyx, I need a recovery tool like ViralUnban for my community. Can we build something similar?",
+        websiteUrl: "#"
       },
       viralhost: {
         title: "ViralHost Deployment Hub",
@@ -2132,7 +2339,8 @@
           "User management and access controls",
           "Dark/light theme support"
         ],
-        bestTemplate: "Hi Calyx, I need a management dashboard like ViralHost for my projects. Can you help build it?"
+        bestTemplate: "Hi Calyx, I need a management dashboard like ViralHost for my projects. Can you help build it?",
+        websiteUrl: "#"
       },
       viralapi: {
         title: "ViralApi Management System",
@@ -2147,7 +2355,8 @@
           "Webhook configuration and testing",
           "Clean, developer-friendly interface"
         ],
-        bestTemplate: "Hi Calyx, I need an API documentation system like ViralApi for my project. Can we work on this?"
+        bestTemplate: "Hi Calyx, I need an API documentation system like ViralApi for my project. Can we work on this?",
+        websiteUrl: "#"
       },
       viralbotmini: {
         title: "Viral-Bot Mini",
@@ -2162,12 +2371,21 @@
           "Simple dashboard for management",
           "Perfect for small businesses and startups"
         ],
-        bestTemplate: "Hi Calyx, I saw your Viral-Bot Mini and need a similar WhatsApp bot for my business. Can we discuss?"
+        bestTemplate: "Hi Calyx, I saw your Viral-Bot Mini and need a similar WhatsApp bot for my business. Can we discuss?",
+        websiteUrl: "#"
       }
     };
 
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    // ===== MODAL ELEMENTS =====
+    const successModal = $("#successModal");
+    const successCloseBtn = $("#successCloseBtn");
+    const successWhatsAppBtn = $("#successWhatsAppBtn");
+    const devModal = $("#devModal");
+    const devCloseBtn = $("#devCloseBtn");
+    const devContactBtn = $("#devContactBtn");
 
     // ===== SKILLS PROGRESS BARS ANIMATION =====
     function animateSkillsProgress() {
@@ -2458,7 +2676,6 @@
     // ===== Contact form with FormSubmit =====
     const contactForm = $("#contactForm");
     const sendBtn = $("#sendBtn");
-    const successMessage = $("#successMessage");
     const successRedirect = $("#successRedirect");
     
     // Set success redirect URL to current page
@@ -2498,13 +2715,9 @@
         // Submit form
         contactForm.submit();
         
-        // Show success message after a short delay
+        // Show success modal after a short delay
         setTimeout(() => {
-          // Show custom success message
-          successMessage.style.display = "block";
-          
-          // Scroll to success message
-          successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          showSuccessModal();
           
           // Show toast notification
           toast("Message Sent!", "Thanks for reaching out! I'll respond soon.", "fa-circle-check");
@@ -2531,9 +2744,76 @@
       }
     });
     
-    // WhatsApp button in success message
-    $("#waOpenSuccess").addEventListener("click", () => {
+    function showSuccessModal() {
+      successModal.classList.add("show");
+      document.body.style.overflow = 'hidden';
+      successCloseBtn.focus();
+    }
+    
+    function hideSuccessModal() {
+      successModal.classList.remove("show");
+      document.body.style.overflow = '';
+    }
+    
+    function showDevModal(projectTitle = "") {
+      devModal.classList.add("show");
+      document.body.style.overflow = 'hidden';
+      devCloseBtn.focus();
+      
+      // Store current project title for contact button
+      if (projectTitle) {
+        devContactBtn.dataset.projectTitle = projectTitle;
+      }
+    }
+    
+    function hideDevModal() {
+      devModal.classList.remove("show");
+      document.body.style.overflow = '';
+    }
+    
+    // Success modal event listeners
+    successCloseBtn.addEventListener("click", hideSuccessModal);
+    successWhatsAppBtn.addEventListener("click", () => {
       openWA("Hi Calyx, I just sent you a message through your contact form and wanted to say hello!");
+      hideSuccessModal();
+    });
+    
+    // Dev modal event listeners
+    devCloseBtn.addEventListener("click", hideDevModal);
+    devContactBtn.addEventListener("click", () => {
+      const projectTitle = devContactBtn.dataset.projectTitle || "";
+      hideDevModal();
+      setActivePage("contact");
+      // Auto-fill contact form message
+      setTimeout(() => {
+        const messageField = $("#message");
+        if (messageField && projectTitle) {
+          messageField.value = `Hi Calyx,\n\nI'm interested in the "${projectTitle}" project. Can you tell me more about it and provide an estimate?`;
+          validateForm();
+          messageField.focus();
+        }
+      }, 300);
+    });
+    
+    // Close modals on backdrop click
+    successModal.addEventListener("click", (e) => {
+      if (e.target.classList.contains("success-modal")) {
+        hideSuccessModal();
+      }
+    });
+    
+    devModal.addEventListener("click", (e) => {
+      if (e.target.classList.contains("dev-modal")) {
+        hideDevModal();
+      }
+    });
+    
+    // Close modals with Escape key
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (successModal.classList.contains("show")) hideSuccessModal();
+        if (devModal.classList.contains("show")) hideDevModal();
+      }
     });
     
     $("#copyEmailBtn").addEventListener("click", ()=> copyText(CONFIG.email, "Email address copied"));
@@ -2578,6 +2858,17 @@
         openWA(templatesFor(type, title));
       });
     });
+    
+    // ===== Visit Site buttons =====
+    $$("[data-visit]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const key = btn.getAttribute("data-visit");
+        const project = PROJECTS[key];
+        if (project) {
+          showDevModal(project.title);
+        }
+      });
+    });
 
     // ===== View Details Modal =====
     const modal = $("#projectModal");
@@ -2595,6 +2886,7 @@
     const mThumbWrap = $("#mThumbWrap");
     const mThumb = $("#mThumb");
     const mCopyTitle = $("#mCopyTitle");
+    const mVisitSite = $("#mVisitSite");
 
     let currentProjectKey = null;
 
@@ -2651,6 +2943,14 @@
       });
 
       mWhatsApp.href = waUrl(templatesFor(type, p.title));
+      
+      // Set up visit site button
+      mVisitSite.addEventListener("click", () => {
+        closeProjectModal();
+        setTimeout(() => {
+          showDevModal(p.title);
+        }, 300);
+      });
 
       modal.classList.add("show");
       modal.setAttribute("aria-hidden","false");
@@ -2690,12 +2990,6 @@
         const key = btn.getAttribute("data-details");
         openProjectModal(key);
       });
-    });
-
-    window.addEventListener("keydown", (e)=>{ 
-      if (e.key === "Escape"){ 
-        closeProjectModal(); 
-      } 
     });
 
     // ===== INIT =====
